@@ -10,6 +10,18 @@ import static io.restassured.RestAssured.given;
 
 public class LibraryAPI_Util {
 
+    private static String token;
+
+    public static String getToken() {
+/*
+        if (token==null){
+            token ="Your Token is null please check your login method";
+          // return new RuntimeException(token).toString();
+        }
+
+ */
+            return token;
+    }
 
     /**
      * Return TOKEN as String by using provided username from /token endpoint
@@ -24,9 +36,9 @@ public class LibraryAPI_Util {
 
 
 
-        return getToken(email,password);
+        token= getToken(email,password);
 
-
+return token;
     }
 
     public static String getToken(String email,String password){
