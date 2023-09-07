@@ -8,6 +8,8 @@ import io.restassured.specification.RequestSpecification;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 
+import java.util.List;
+
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -43,5 +45,33 @@ public class UserStepDefs {
     public void field_should_not_be_null(String key) {
    response.then().body(key, everyItem(notNullValue()));
     }
+
+String globalUserId;
+    @Given("Path param is {string}")
+    public void path_param_is(String userId) {
+        globalUserId=userId;
+        requestSpecification.pathParam("id",userId);
+    }
+    @Then("{string} field should be same with path param")
+    public void field_should_be_same_with_path_param(String pathOfId) {
+
+        String actualValueForIdField = response.jsonPath().getString(pathOfId);
+
+        Assert.assertEquals(globalUserId,actualValueForIdField);
+    }
+    @Then("following fields should not be null")
+    public void following_fields_should_not_be_null(List<String> keys) {
+
+        for (String key : keys) {
+
+       //  Assert.assertTrue(response.jsonPath().getString(key)!=null);
+
+            response.then().body(key,Matchers.notNullValue());
+        }
+
+
+
+    }
+
 
 }
