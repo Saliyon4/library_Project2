@@ -9,6 +9,7 @@ import com.library.utility.Driver;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import io.restassured.RestAssured;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -17,6 +18,21 @@ import java.time.Duration;
 
 public class Hooks {
 
+
+    @Before("@api")
+    public void setUpApi(){
+
+        RestAssured.baseURI= ConfigurationReader.getProperty("library.baseUri");
+
+    }
+
+    @After("@api")
+    public void resetApi(){
+
+      RestAssured.reset();
+
+    }
+
     @Before("@ui")
     public void setUp(){
         Driver.getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
@@ -24,6 +40,7 @@ public class Hooks {
         Driver.getDriver().get(ConfigurationReader.getProperty("library_url"));
 
     }
+
 
     @After("@ui")
     public void tearDown(Scenario scenario){
